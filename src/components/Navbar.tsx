@@ -39,6 +39,7 @@ export const NavBar = () => {
                 })
               }
               to={{ pathname: 'people', search: state?.search }}
+              state={{ search: searchParams.toString() }}
             >
               People
             </NavLink>

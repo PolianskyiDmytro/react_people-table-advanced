@@ -23,15 +23,18 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
   }
 
   if (query) {
-    filteredPeople = [...filteredPeople].filter(person =>
-      person.name.includes(query),
+    filteredPeople = [...filteredPeople].filter(
+      person =>
+        person.name.toLowerCase().includes(query.toLowerCase()) ||
+        person.motherName?.toLowerCase().includes(query.toLowerCase()) ||
+        person.fatherName?.toLowerCase().includes(query.toLowerCase()),
     );
   }
 
   if (centuries.length !== 0) {
     filteredPeople = [...filteredPeople].filter(person => {
-      const bornCentury = ((person.born + 100) / 100).toFixed(0);
-      const diedCentury = ((person.died + 100) / 100).toFixed(0);
+      const bornCentury = Math.ceil(person.born / 100).toString();
+      const diedCentury = Math.ceil(person.died / 100).toString();
 
       return centuries.includes(bornCentury) || centuries.includes(diedCentury);
     });
@@ -40,33 +43,37 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
   const pickOrderType = (sortType: string) => {
     if (sortType === sort) {
       if (order === 'desc') {
-        return 'asc';
-      } else {
+        return null;
+      } else if (order === 'asc') {
         return 'desc';
+      } else {
+        return 'asc';
       }
     } else {
-      return 'desc';
+      return 'asc';
     }
   };
 
+  let sortedPeople: Person[] = filteredPeople;
+
   if (order === 'desc') {
-    filteredPeople = [...filteredPeople].sort((person1, person2) => {
-      switch (sort) {
-        case 'name':
-        case 'sex':
-          return person1[sort].localeCompare(person2[sort]);
-        default:
-          return (person1[sort] as number) - (person2[sort] as number);
-      }
-    });
-  } else if (order === 'asc') {
-    filteredPeople = [...filteredPeople].sort((person1, person2) => {
+    sortedPeople = [...filteredPeople].sort((person1, person2) => {
       switch (sort) {
         case 'name':
         case 'sex':
           return person2[sort].localeCompare(person1[sort]);
         default:
           return (person2[sort] as number) - (person1[sort] as number);
+      }
+    });
+  } else if (order === 'asc') {
+    sortedPeople = [...filteredPeople].sort((person1, person2) => {
+      switch (sort) {
+        case 'name':
+        case 'sex':
+          return person1[sort].localeCompare(person2[sort]);
+        default:
+          return (person1[sort] as number) - (person2[sort] as number);
       }
     });
   }
@@ -87,9 +94,9 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                 <span className="icon">
                   <i
                     className={classNames('fas', {
-                      'fa-sort': sort !== 'name',
-                      'fa-sort-up': sort === 'name' && order === 'asc',
-                      'fa-sort-down': sort === 'name' && order === 'desc',
+                      'fa-sort': sort !== 'name' || !order,
+                      'fa-sort-up': sort === 'name' && order === 'desc',
+                      'fa-sort-down': sort === 'name' && order === 'asc',
                     })}
                   />
                 </span>
@@ -104,9 +111,9 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                 <span className="icon">
                   <i
                     className={classNames('fas', {
-                      'fa-sort': sort !== 'sex',
-                      'fa-sort-up': sort === 'sex' && order === 'asc',
-                      'fa-sort-down': sort === 'sex' && order === 'desc',
+                      'fa-sort': sort !== 'sex' || !order,
+                      'fa-sort-up': sort === 'sex' && order === 'desc',
+                      'fa-sort-down': sort === 'sex' && order === 'asc',
                     })}
                   />
                 </span>
@@ -123,9 +130,9 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                 <span className="icon">
                   <i
                     className={classNames('fas', {
-                      'fa-sort': sort !== 'born',
-                      'fa-sort-up': sort === 'born' && order === 'asc',
-                      'fa-sort-down': sort === 'born' && order === 'desc',
+                      'fa-sort': sort !== 'born' || !order,
+                      'fa-sort-up': sort === 'born' && order === 'desc',
+                      'fa-sort-down': sort === 'born' && order === 'asc',
                     })}
                   />
                 </span>
@@ -142,9 +149,9 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                 <span className="icon">
                   <i
                     className={classNames('fas', {
-                      'fa-sort': sort !== 'died',
-                      'fa-sort-up': sort === 'died' && order === 'asc',
-                      'fa-sort-down': sort === 'died' && order === 'desc',
+                      'fa-sort': sort !== 'died' || !order,
+                      'fa-sort-up': sort === 'died' && order === 'desc',
+                      'fa-sort-down': sort === 'died' && order === 'asc',
                     })}
                   />
                 </span>
@@ -158,7 +165,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
       </thead>
 
       <tbody>
-        {filteredPeople.map(person => (
+        {sortedPeople.map(person => (
           <tr
             data-cy="person"
             key={person.slug}
