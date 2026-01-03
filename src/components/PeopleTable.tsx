@@ -95,8 +95,8 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                   <i
                     className={classNames('fas', {
                       'fa-sort': sort !== 'name' || !order,
-                      'fa-sort-up': sort === 'name' && order === 'desc',
-                      'fa-sort-down': sort === 'name' && order === 'asc',
+                      'fa-sort-up': sort === 'name' && order === 'asc',
+                      'fa-sort-down': sort === 'name' && order === 'desc',
                     })}
                   />
                 </span>
@@ -112,8 +112,8 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                   <i
                     className={classNames('fas', {
                       'fa-sort': sort !== 'sex' || !order,
-                      'fa-sort-up': sort === 'sex' && order === 'desc',
-                      'fa-sort-down': sort === 'sex' && order === 'asc',
+                      'fa-sort-up': sort === 'sex' && order === 'asc',
+                      'fa-sort-down': sort === 'sex' && order === 'desc',
                     })}
                   />
                 </span>
@@ -131,8 +131,8 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                   <i
                     className={classNames('fas', {
                       'fa-sort': sort !== 'born' || !order,
-                      'fa-sort-up': sort === 'born' && order === 'desc',
-                      'fa-sort-down': sort === 'born' && order === 'asc',
+                      'fa-sort-up': sort === 'born' && order === 'asc',
+                      'fa-sort-down': sort === 'born' && order === 'desc',
                     })}
                   />
                 </span>
@@ -150,8 +150,8 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
                   <i
                     className={classNames('fas', {
                       'fa-sort': sort !== 'died' || !order,
-                      'fa-sort-up': sort === 'died' && order === 'desc',
-                      'fa-sort-down': sort === 'died' && order === 'asc',
+                      'fa-sort-up': sort === 'died' && order === 'asc',
+                      'fa-sort-down': sort === 'died' && order === 'desc',
                     })}
                   />
                 </span>

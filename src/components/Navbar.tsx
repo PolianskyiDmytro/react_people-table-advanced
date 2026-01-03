@@ -38,8 +38,10 @@ export const NavBar = () => {
                   'has-background-grey-lighter': isActive,
                 })
               }
-              to={{ pathname: 'people', search: state?.search }}
-              state={{ search: searchParams.toString() }}
+              to={{
+                pathname: 'people',
+                search: state?.search || searchParams.toString(),
+              }}
             >
               People
             </NavLink>
