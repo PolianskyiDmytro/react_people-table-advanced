@@ -54,6 +54,14 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
     }
   };
 
+  const sortStatus = (sortType) => {
+    if (!pickOrderType(sortType)) {
+      return null;
+    } else {
+      return sortType;
+    }
+  }
+
   let sortedPeople: Person[] = filteredPeople;
 
   if (order === 'desc') {
@@ -89,7 +97,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
             <span className="is-flex is-flex-wrap-nowrap">
               Name
               <SearchLink
-                params={{ sort: 'name', order: pickOrderType('name') }}
+                params={{ sort: sortStatus('name'), order: pickOrderType('name') }}
               >
                 <span className="icon">
                   <i
@@ -107,7 +115,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
           <th>
             <span className="is-flex is-flex-wrap-nowrap">
               Sex
-              <SearchLink params={{ sort: 'sex', order: pickOrderType('sex') }}>
+              <SearchLink params={{ sort: sortStatus('sex'), order: pickOrderType('sex') }}>
                 <span className="icon">
                   <i
                     className={classNames('fas', {
@@ -125,7 +133,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
             <span className="is-flex is-flex-wrap-nowrap">
               Born
               <SearchLink
-                params={{ sort: 'born', order: pickOrderType('born') }}
+                params={{ sort: sortStatus('born'), order: pickOrderType('born') }}
               >
                 <span className="icon">
                   <i
@@ -144,7 +152,7 @@ export const PeopleTable: React.FC<Props> = ({ people }) => {
             <span className="is-flex is-flex-wrap-nowrap">
               Died
               <SearchLink
-                params={{ sort: 'died', order: pickOrderType('died') }}
+                params={{ sort: sortStatus('died'), order: pickOrderType('died') }}
               >
                 <span className="icon">
                   <i
